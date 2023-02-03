@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 
 import AuthContext from './contexts/index.jsx';
-import Root from './routes/Root.jsx';
+import Root, { loader as rootLoader } from './routes/Root.jsx';
 import ErrorPage from './routes/Error-page.jsx';
 import LoginForm from './routes/LoginForm.jsx';
 
@@ -33,6 +33,7 @@ const router = createBrowserRouter([
     path: '/',
     element: <Root />,
     errorElement: <ErrorPage />,
+    loader: rootLoader,
     children: [
       {
         path: 'login',
