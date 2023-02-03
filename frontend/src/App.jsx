@@ -1,28 +1,52 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom';
-import Root from './routes/Root';
-import ErrorPage from './routes/Error-page';
-import LoginForm from './routes/LoginForm';
-import './App.css';
+
+import AuthContext from './contexts/index.jsx';
+import Root from './routes/Root.jsx';
+import ErrorPage from './routes/Error-page.jsx';
+import LoginForm from './routes/LoginForm.jsx';
+
+function AuthProvider({ children }) {
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const logIn = () => setLoggedIn(true);
+  const logOut = () => {
+    localStorage.removeItem('userInfo');
+    setLoggedIn(false);
+  };
+
+  // Look about rule at https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-constructed-context-values.md
+  const authServices = useMemo(() => ({ loggedIn, logIn, logOut }), [loggedIn]);
+
+  return (
+    <AuthContext.Provider value={authServices}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: '/login',
-    element: <LoginForm />,
+    children: [
+      {
+        path: 'login',
+        element: <LoginForm />,
+      },
+    ],
   },
 ]);
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   );
 }
 
