@@ -1,21 +1,18 @@
-import React from 'react';
-import { Outlet, Link /* , redirect, Navigate */ } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { Navbar, Container } from 'react-bootstrap';
 
 import useAuth from '../hooks/index.jsx';
 
-/* export function loader() {
-  const user = localStorage.getItem('userInfo');
-  if (!user) {
-    throw redirect('/login');
-  }
-
-  return null;
-} */
-
 function Root() {
   const auth = useAuth();
-  console.log(auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!auth.loggedIn) {
+      navigate('/login');
+    }
+  }, [auth.loggedIn]);
 
   return (
     <div className="d-flex flex-column h-100">
