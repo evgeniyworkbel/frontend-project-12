@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
-import { Outlet, useNavigate, useLoaderData } from 'react-router-dom';
+import React from 'react';
+import { Navigate, useLoaderData } from 'react-router-dom';
 import axios from 'axios';
 
-import AppBar from '../components/AppBar.jsx';
 import useAuth from '../hooks/index.jsx';
 import routes from '../routes.js';
 
@@ -23,22 +22,15 @@ export async function loader() {
 function Root() {
   const { loggedIn } = useAuth();
   const loadedData = useLoaderData();
+  console.log(loadedData);
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!loggedIn) {
-      navigate('/login');
-    }
-  }, [loggedIn]);
+  // TODO: think of prop state={{ from: location }}
+  if (!loggedIn) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
-    <div className="d-flex flex-column h-100">
-      <AppBar />
-      <div id="main" className="h-100">
-        <Outlet />
-      </div>
-    </div>
+    <div>Chat</div>
   );
 }
 
