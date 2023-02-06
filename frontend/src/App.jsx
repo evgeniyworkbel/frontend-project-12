@@ -6,7 +6,7 @@ import {
 
 import AuthContext from './contexts/index.jsx';
 import AppLayout from './components/AppLayout.jsx';
-import Root, { loader as rootLoader } from './routes/Root.jsx';
+import Root from './routes/Root.jsx';
 import ErrorPage from './routes/ErrorPage.jsx';
 import LoginForm from './routes/LoginForm.jsx';
 
@@ -37,7 +37,6 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Root />,
-        loader: rootLoader,
       },
       {
         path: '/login',
