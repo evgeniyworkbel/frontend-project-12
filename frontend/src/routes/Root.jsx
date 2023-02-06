@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLoaderData } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
@@ -17,9 +17,15 @@ function getAuthHeader() {
   return {};
 }
 
-// FIX: navigate to login form twice
+export async function loader() {
+  const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
+  return data;
+}
+
 function Root() {
   const { loggedIn } = useAuth();
+  const { channels, currentChannelId, messages } = useLoaderData();
+
   const dispatch = useDispatch();
 
   // TODO: think of prop state={{ from: location }}
@@ -28,16 +34,9 @@ function Root() {
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
-      const { channels, currentChannelId, messages } = data;
-
-      dispatch(channelsActions.addChannels(channels));
-      dispatch(channelsActions.setCurrentChannel({ id: currentChannelId }));
-      dispatch(messagesActions.addMessages(messages));
-    };
-
-    fetchData();
+    dispatch(channelsActions.addChannels(channels));
+    dispatch(channelsActions.setCurrentChannel({ id: currentChannelId }));
+    dispatch(messagesActions.addMessages(messages));
   });
 
   return (
