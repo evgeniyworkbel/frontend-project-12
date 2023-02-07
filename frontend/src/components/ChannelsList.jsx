@@ -5,9 +5,12 @@ import { Nav } from 'react-bootstrap';
 import { selectors as channelsSelectors } from '../slices/channelsSlice.js';
 import Channel from './Channel';
 
-function Channels() {
+// TODO: replace svg with icons from react-bootstrap-icons package
+
+function ChannelsList() {
   const channels = useSelector(channelsSelectors.selectAll);
   const { currentChannelId } = useSelector((state) => state.channels);
+  console.log('!!!!!!', channels, currentChannelId);
 
   return (
     <>
@@ -28,4 +31,4 @@ function Channels() {
   );
 }
 
-export default Channels;
+export default ChannelsList;
