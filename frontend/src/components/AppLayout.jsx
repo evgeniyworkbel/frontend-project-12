@@ -14,7 +14,6 @@ function AppLayout() {
         <Outlet />
       </div>
     </div>
-
   );
 }
 
