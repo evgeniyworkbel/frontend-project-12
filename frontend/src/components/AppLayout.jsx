@@ -10,9 +10,7 @@ function AppLayout() {
           <Navbar.Brand as={Link} to="/">Chat</Navbar.Brand>
         </Container>
       </Navbar>
-      <div id="main" className="h-100">
-        <Outlet />
-      </div>
+      <Outlet />
     </div>
   );
 }
