@@ -1,30 +1,64 @@
 import React, { useEffect } from 'react';
-import { Outlet, Link, useNavigate } from 'react-router-dom';
-import { Navbar, Container } from 'react-bootstrap';
+import { Navigate, useLoaderData } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Container, Row, Col } from 'react-bootstrap';
+import axios from 'axios';
 
 import useAuth from '../hooks/index.jsx';
+import { actions as channelsActions } from '../slices/channelsSlice.js';
+import { actions as messagesActions } from '../slices/messagesSlice.js';
+import routes from '../routes.js';
+import ChannelsList from '../components/channels/ChannelsList.jsx';
+import ChannelInfo from '../components/channels/ChannelInfo.jsx';
+import MessagesBox from '../components/messages/MessagesBox.jsx';
+import MessageInput from '../components/messages/MessageInput.jsx';
+
+function getAuthHeader() {
+  const user = JSON.parse(localStorage.getItem('userInfo'));
+  if (user && user.token) {
+    return { Authorization: `Bearer ${user.token}` };
+  }
+
+  return {};
+}
+
+export async function loader() {
+  const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
+  return data;
+}
 
 function Root() {
-  const auth = useAuth();
-  const navigate = useNavigate();
+  const { loggedIn } = useAuth();
+  const { channels, currentChannelId, messages } = useLoaderData();
+
+  const dispatch = useDispatch();
+
+  // TODO: think of prop state={{ from: location }}
+  if (!loggedIn) {
+    return <Navigate to="/login" replace />;
+  }
 
   useEffect(() => {
-    if (!auth.loggedIn) {
-      navigate('/login');
-    }
-  }, [auth.loggedIn]);
+    dispatch(channelsActions.addChannels(channels));
+    dispatch(channelsActions.setCurrentChannel({ id: currentChannelId }));
+    dispatch(messagesActions.addMessages(messages));
+  });
 
   return (
-    <div className="d-flex flex-column h-100">
-      <Navbar variant="light" bg="white" expand="lg" className="shadow-sm">
-        <Container>
-          <Navbar.Brand as={Link} to="/">Chat</Navbar.Brand>
-        </Container>
-      </Navbar>
-      <div id="main" className="h-100">
-        <Outlet />
-      </div>
-    </div>
+    <Container className="h-100 my-4 overflow-hidden rounded-2 shadow">
+      <Row className="h-100 d-flex flex-md-row bg-white">
+        <Col xs={4} md={2} className="border-end pt-5 px-0 bg-light">
+          <ChannelsList />
+        </Col>
+        <Col xs className="h-100 p-0">
+          <div className="d-flex flex-column h-100">
+            <ChannelInfo />
+            <MessagesBox />
+            <MessageInput />
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
