@@ -10,7 +10,6 @@ import Channel from './Channel';
 function ChannelsList() {
   const channels = useSelector(channelsSelectors.selectAll);
   const { currentChannelId } = useSelector((state) => state.channels);
-  console.log('!!!!!!', channels, currentChannelId);
 
   return (
     <>

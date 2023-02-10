@@ -4,20 +4,23 @@ import { } from 'react-bootstrap';
 
 import { selectors as channelsSelectors } from '../slices/channelsSlice.js';
 
+// TODO: add messages render (later)
+
 function ChannelInfo() {
   const { currentChannelId } = useSelector((state) => state.channels);
   const currentChannel = useSelector((state) => (
     channelsSelectors.selectById(state, currentChannelId)
   ));
-  // console.log(currentChannelId);
 
   return (
-    <div>
-      <p>
-        <span>#</span>
-        {currentChannel.name}
+    <div className="small p-3 bg-light shadow-sm">
+      <p className="m-0">
+        <span className="fw-bold">#</span>
+        <span className="fw-bold">
+          {currentChannel && currentChannel.name}
+        </span>
       </p>
-      <span>
+      <span className="text-muted">
         сообщений
       </span>
     </div>
