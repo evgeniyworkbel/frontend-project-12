@@ -8,10 +8,10 @@ import useAuth from '../hooks/index.jsx';
 import { actions as channelsActions } from '../slices/channelsSlice.js';
 import { actions as messagesActions } from '../slices/messagesSlice.js';
 import routes from '../routes.js';
-import ChannelsList from '../components/ChannelsList.jsx';
-import ChannelInfo from '../components/ChannelInfo.jsx';
-import MessagesBox from '../components/MessagesBox.jsx';
-import MessageInput from '../components/MessageInput.jsx';
+import ChannelsList from '../components/channels/ChannelsList.jsx';
+import ChannelInfo from '../components/channels/ChannelInfo.jsx';
+import MessagesBox from '../components/messages/MessagesBox.jsx';
+import MessageInput from '../components/messages/MessageInput.jsx';
 
 function getAuthHeader() {
   const user = JSON.parse(localStorage.getItem('userInfo'));

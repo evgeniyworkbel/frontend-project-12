@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { } from 'react-bootstrap';
 
-import { selectors as channelsSelectors } from '../slices/channelsSlice.js';
+import { selectors as channelsSelectors } from '../../slices/channelsSlice.js';
 
 // TODO: add messages render (later)
 
