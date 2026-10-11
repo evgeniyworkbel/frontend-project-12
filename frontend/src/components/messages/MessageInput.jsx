@@ -8,9 +8,7 @@ function MessageInput() {
     initialValues: {
       newMessage: '',
     },
-    onSubmit: (values) => {
-      console.log(values);
-    },
+    onSubmit: (values) => {},
   });
 
   return (
