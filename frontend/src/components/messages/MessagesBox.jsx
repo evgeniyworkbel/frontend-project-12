@@ -6,7 +6,7 @@ function MessagesBox() {
   const { currentChannelId } = useSelector((state) => state.channels);
 
   return (
-    <>{currentChannelId}</>
+    <span>{currentChannelId}</span>
   );
 }
 
