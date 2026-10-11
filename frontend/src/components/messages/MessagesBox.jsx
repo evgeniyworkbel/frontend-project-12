@@ -4,11 +4,9 @@ import { } from 'react-bootstrap';
 
 function MessagesBox() {
   const { currentChannelId } = useSelector((state) => state.channels);
-  console.log('' && currentChannelId);
 
   return (
-    <>
-    </>
+    <>{currentChannelId}</>
   );
 }
 
